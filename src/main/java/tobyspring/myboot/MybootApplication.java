@@ -5,8 +5,10 @@ import org.springframework.boot.web.server.WebServer;
 import org.springframework.boot.web.servlet.ServletContextInitializer;
 
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import tobyspring.myboot.hello.HelloController;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -26,22 +28,33 @@ public class MybootApplication {
 		TomcatServletWebServerFactory servletFactory = new TomcatServletWebServerFactory();
 
 		/**
-		 * 서블릿을 등록
+		 * 디스패처 서블릿을 등록
+		 * 웹 앱 로직은 다른 객체에게 책임을 위임해야함.
 		 */
+
+		HelloController controller = new HelloController();
 		WebServer webServer = servletFactory.getWebServer(new ServletContextInitializer() {
 			@Override
 			public void onStartup(ServletContext servletContext) throws ServletException {
-				servletContext.addServlet("hello", new HttpServlet() {
+				servletContext.addServlet("frontcontroller", new HttpServlet() {
 					@Override
 					public void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-						/**
-						 * 응답 값을 설정.
-						 */
-						resp.setStatus(HttpStatus.OK.value());
-						resp.setHeader(HttpHeaders.CONTENT_TYPE, MediaType.TEXT_PLAIN_VALUE);
-						resp.getWriter().println("Hello Servlet " + req.getParameter("name"));
+
+						if(req.getRequestURI().equals("/hello") && req.getMethod().equals(HttpMethod.GET.name())){
+							String name = controller.hello(req.getParameter("name"));
+							resp.setStatus(HttpStatus.OK.value());
+							resp.setHeader(HttpHeaders.CONTENT_TYPE, MediaType.TEXT_PLAIN_VALUE);
+							resp.getWriter().println(name);
+						}
+
+						else if (req.getRequestURI().equals("/user")){
+							//
+						}
+						else{
+							resp.setStatus(HttpStatus.NOT_FOUND.value());
+						}
 					}
-				}).addMapping("/hello");
+				}).addMapping("/*");
 			}
 		});
 		webServer.start();
