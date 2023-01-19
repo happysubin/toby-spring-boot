@@ -39,7 +39,7 @@ public class MybootApplication {
 						 */
 						resp.setStatus(HttpStatus.OK.value());
 						resp.setHeader(HttpHeaders.CONTENT_TYPE, MediaType.TEXT_PLAIN_VALUE);
-						resp.getWriter().println("Hello Servlet");
+						resp.getWriter().println("Hello Servlet " + req.getParameter("name"));
 					}
 				}).addMapping("/hello");
 			}
