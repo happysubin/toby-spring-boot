@@ -10,6 +10,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import tobyspring.myboot.hello.HelloController;
+import tobyspring.myboot.hello.SimpleHelloService;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -31,6 +32,7 @@ public class MybootApplication {
 
 		GenericApplicationContext applicationContext = new GenericApplicationContext();
 		applicationContext.registerBean(HelloController.class);
+		applicationContext.registerBean(SimpleHelloService.class); //인터페이스가 아닌 구체 클래스를 넣어줘야함.
 		applicationContext.refresh(); //구성 정보를 가지고 컨테이너를 초기화함. 빈 오브젝트를 다 만듦.
 		/**
 		 * 디스패처 서블릿을 등록
