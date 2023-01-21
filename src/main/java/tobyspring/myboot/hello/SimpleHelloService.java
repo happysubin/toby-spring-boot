@@ -1,6 +1,9 @@
 package tobyspring.myboot.hello;
 
+import org.springframework.stereotype.Service;
 
+//@Service
+@MyComponent
 public class SimpleHelloService implements HelloService {
 
     @Override
