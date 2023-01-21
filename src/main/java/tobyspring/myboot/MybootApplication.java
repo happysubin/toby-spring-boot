@@ -4,6 +4,7 @@ import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactor
 import org.springframework.boot.web.server.WebServer;
 import org.springframework.boot.web.servlet.ServletContextInitializer;
 
+import org.springframework.context.support.GenericApplicationContext;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
@@ -27,12 +28,15 @@ public class MybootApplication {
 		 */
 		TomcatServletWebServerFactory servletFactory = new TomcatServletWebServerFactory();
 
+
+		GenericApplicationContext applicationContext = new GenericApplicationContext();
+		applicationContext.registerBean(HelloController.class);
+		applicationContext.refresh(); //구성 정보를 가지고 컨테이너를 초기화함. 빈 오브젝트를 다 만듦.
 		/**
 		 * 디스패처 서블릿을 등록
 		 * 웹 앱 로직은 다른 객체에게 책임을 위임해야함.
 		 */
 
-		HelloController controller = new HelloController();
 		WebServer webServer = servletFactory.getWebServer(new ServletContextInitializer() {
 			@Override
 			public void onStartup(ServletContext servletContext) throws ServletException {
@@ -41,9 +45,13 @@ public class MybootApplication {
 					public void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
 						if(req.getRequestURI().equals("/hello") && req.getMethod().equals(HttpMethod.GET.name())){
+
+							HelloController controller = applicationContext.getBean(HelloController.class);
 							String name = controller.hello(req.getParameter("name"));
-							resp.setStatus(HttpStatus.OK.value());
-							resp.setHeader(HttpHeaders.CONTENT_TYPE, MediaType.TEXT_PLAIN_VALUE);
+
+							//resp.setStatus(HttpStatus.OK.value()); 서블릿이 알아서 200번이나 오류가 발생하면 적절한 상태 코드를 리턴함.
+
+							resp.setContentType(MediaType.TEXT_PLAIN_VALUE);
 							resp.getWriter().println(name);
 						}
 
