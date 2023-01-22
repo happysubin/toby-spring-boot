@@ -27,3 +27,8 @@ public class MyAutoConfigImportSelector implements DeferredImportSelector {
         return autoConfigs.toArray(String[]::new);
     }
 }
+
+/**
+ * ImportSelector의 구현 클래스를 @Import하면 selectImports가 리턴하는 클래스 이름으로 @Configuration 클래스를 찾아서 구성 정보로 사용한다.
+ * 코드에 의해서 @import 대상을 외부에서 가져오고 선택할 수 있는 동적인 방법을 제공한다.
+ */
