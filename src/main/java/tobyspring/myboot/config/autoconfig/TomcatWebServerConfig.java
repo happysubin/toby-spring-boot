@@ -1,5 +1,6 @@
 package tobyspring.myboot.config.autoconfig;
 
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
 import org.springframework.boot.web.servlet.server.ServletWebServerFactory;
 import org.springframework.context.annotation.*;
@@ -12,6 +13,7 @@ import tobyspring.myboot.config.MyAutoConfiguration;
 public class TomcatWebServerConfig {
 
     @Bean("tomcatWebserverFactory")
+    @ConditionalOnMissingBean //똑같은 타입의 빈이 없어야지 빈으로 등록된다.
     public ServletWebServerFactory servletWebServerFactory() {
         return new TomcatServletWebServerFactory();
     }
