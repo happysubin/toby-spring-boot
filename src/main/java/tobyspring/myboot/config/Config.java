@@ -1,4 +1,4 @@
-package tobyspring.myboot.hello;
+package tobyspring.myboot.config;
 
 
 import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
