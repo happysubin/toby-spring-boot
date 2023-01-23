@@ -1,5 +1,6 @@
 package tobyspring.myboot.config.autoconfig;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
 import org.springframework.boot.web.servlet.server.ServletWebServerFactory;
@@ -13,11 +14,14 @@ import tobyspring.myboot.config.MyAutoConfiguration;
 @ConditionalMyOnClass("org.apache.catalina.startup.Tomcat")
 public class TomcatWebServerConfig {
 
+    @Value("${contextPath}")
+    String contextPath;
+
     @Bean("tomcatWebserverFactory")
     @ConditionalOnMissingBean //똑같은 타입의 빈이 없어야지 빈으로 등록된다.
-    public ServletWebServerFactory servletWebServerFactory(Environment env) {
+    public ServletWebServerFactory servletWebServerFactory() {
         TomcatServletWebServerFactory serverFactory = new TomcatServletWebServerFactory();
-        serverFactory.setContextPath(env.getProperty("contextPath"));
+        serverFactory.setContextPath(this.contextPath);
         return serverFactory;
     }
 }
