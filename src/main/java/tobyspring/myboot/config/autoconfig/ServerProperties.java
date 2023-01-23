@@ -1,7 +1,9 @@
 package tobyspring.myboot.config.autoconfig;
 
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+import tobyspring.myboot.config.MyConfigurationProperties;
 
+@MyConfigurationProperties(prefix = "server")
 public class ServerProperties {
 
     private String contextPath;
