@@ -18,13 +18,6 @@ public class HelloRepositoryTest {
     @Autowired
     JdbcTemplate jdbcTemplate;
 
-
-    @BeforeEach
-    void beforeEach(){
-        jdbcTemplate.execute("create table if not exists hello(name varchar(50) primary key, count int)");
-    }
-
-
     @Test
     void findHelloFailed(){
         assertThat(helloRepository.findHello("subin")).isNull();
