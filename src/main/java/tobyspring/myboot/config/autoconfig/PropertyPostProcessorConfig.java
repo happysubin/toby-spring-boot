@@ -2,14 +2,15 @@ package tobyspring.myboot.config.autoconfig;
 
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;
-import org.springframework.boot.context.properties.bind.Binder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.core.env.Environment;
+
+import org.springframework.boot.context.properties.bind.Binder;
+
 import tobyspring.myboot.config.MyAutoConfiguration;
 import tobyspring.myboot.config.MyConfigurationProperties;
 
-import java.lang.annotation.Annotation;
 import java.util.Map;
 
 @MyAutoConfiguration
